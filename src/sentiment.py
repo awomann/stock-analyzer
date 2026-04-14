@@ -7,21 +7,13 @@ load_dotenv()
 api_token = os.getenv("HF_TOKEN")
 
 # Hugging Face Inference API endpoint for tabularisai sentiment analysis model.
-API_URL = "https://router.huggingface.co/hf-inference/models/tabularisai/robust-sentiment-analysis"
+API_URL = "https://router.huggingface.co/hf-inference/models/mrm8488/distilroberta-finetuned-financial-news-sentiment-analysis"
 
 headers = {
     "Authorization" : "Bearer " + api_token
 }
 
 def analyze_sentiment(text):
-    """
-    This function analyzes the sentiment of text using the HF API.
-    
-    - text: the input we want to analyze
-    - payload: packages the text into a format HF understands
-    - requests.post: sends the package to HF along with our headers
-    - response: where the result from HF lands after analysis
-    """
     payload = {
         "inputs" : text
     }
