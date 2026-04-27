@@ -95,5 +95,3 @@ for ticker in last_close.index:
     )
 
 fig.write_html("outputs/stock_dashboard.html")
-
-print("Dashboard saved to outputs/stock_dashboard.html")
