@@ -6,7 +6,7 @@ from dotenv import load_dotenv
 load_dotenv()
 api_token = os.getenv("HF_TOKEN")
 
-# Hugging Face Inference API endpoint for tabularisai sentiment analysis model.
+# Hugging Face Inference API endpoint for sentiment analysis model.
 API_URL = "https://router.huggingface.co/hf-inference/models/mrm8488/distilroberta-finetuned-financial-news-sentiment-analysis"
 
 headers = {
