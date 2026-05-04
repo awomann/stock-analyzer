@@ -6,6 +6,8 @@ from plotly.subplots import make_subplots
 import plotly.graph_objects as go
 from .sentiment import analyze_sentiment
 
+
+
 stocks = ["NVDA", "META", "MSFT", "AMD", "GOOGL"]
 
 df = yf.download(tickers=stocks, start="2023-03-15", end="2026-03-15")
