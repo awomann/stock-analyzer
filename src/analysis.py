@@ -5,8 +5,14 @@ import plotly.express as px
 from plotly.subplots import make_subplots
 import plotly.graph_objects as go
 from .sentiment import analyze_sentiment
+import sqlite3
 
+conn = sqlite3.connect("headline_db.sqlite")
+cursor = conn.cursor()
 
+cursor.execute("CREATE TABLE IF NOT EXISTS prices (ticker TEXT, date TEXT, close REAL)")
+cursor.execute("CREATE TABLE IF NOT EXISTS headlines (ticker TEXT, date TEXT, title TEXT, label TEXT, score REAL)")
+conn.commit()
 
 stocks = ["NVDA", "META", "MSFT", "AMD", "GOOGL"]
 
@@ -36,8 +42,15 @@ for title in headline_data["title"]:
 headline_data["label"] = label_results
 headline_data["score"] = score_results
 
+existing_headlines = pd.read_sql("SELECT title FROM headlines", conn)
+new_headlines = headline_data[~headline_data["title"].isin(existing_headlines["title"])]
+if not new_headlines.empty:
+    new_headlines.to_sql("headlines", conn, if_exists="append", index=False)
+
 reshaped_data = df["Close"].stack().reset_index().rename(columns={0: "close", "Ticker": "ticker", "Date": "date"})
 reshaped_data = reshaped_data.set_index("date")
+
+reshaped_data.to_sql("prices", conn, if_exists="replace", index=True)
 
 quarterly_close = reshaped_data.groupby(["ticker", pd.Grouper(freq="QE")])["close"].mean()
 first_close = quarterly_close.groupby("ticker").first()
