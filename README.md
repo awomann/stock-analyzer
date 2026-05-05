@@ -8,20 +8,20 @@ This pairing—current sentiment snapshot + historical price context—allows us
 
 ## Data
 **Price Data**
-Source: yfinance
-Tickers: AMD, GOOGL, META, MSFT, NVDA
-Time span: March 15, 2023 – Q1 2026 (3 years)
-Fields: Open, high, low, close, volume
-Frequency: Daily OHLCV bars
-Volume: ~750 trading days × 5 tickers = 3,750 rows
+- Source: yfinance
+- Tickers: AMD, GOOGL, META, MSFT, NVDA
+- Time span: March 15, 2023 – Q1 2026 (3 years)
+- Fields: Open, high, low, close, volume
+- Frequency: Daily OHLCV bars
+- Volume: ~750 trading days × 5 tickers = 3,750 rows
 
 **Sentiment Data**
-Source: yfinance.news (current headlines only)
-Collection method: Headlines pulled via API and scored using distilroberta-finetuned-financial-news-sentiment-analysis, a DistilRoBERTa model fine-tuned on financial text.
-Sample size: 10 most recent headlines per ticker (50 total)
-Scoring: 3-class classification (positive, neutral, negative) with confidence scores per headline
-Overall sentiment distribution: Neutral 40%, Positive 38%, Negative 22%
-Quality: Mean confidence score 0.97 (median 0.998); only one headline below 0.55. High confidence across all predictions.
+- Source: yfinance.news (current headlines only)
+- Collection method: Headlines pulled via API and scored using distilroberta-finetuned-financial-news-sentiment-analysis, a DistilRoBERTa model fine-tuned on financial text.
+- Sample size: 10 most recent headlines per ticker (50 total)
+- Scoring: 3-class classification (positive, neutral, negative) with confidence scores per headline
+- Overall sentiment distribution: Neutral 40%, Positive 38%, Negative 22%
+- Quality: Mean confidence score 0.97 (median 0.998); only one headline below 0.55. High confidence across all predictions.
 
 **Scope Decision**
 Historical headline data was not available via yfinance.news, which returns only current headlines. A full lag analysis (negative sentiment → next-week price decline) would require three years of archived headlines—unavailable without a paid news API. Rather than introduce external dependencies, the project was scoped to pair current sentiment snapshot with historical price data to assess sentiment-price alignment (see Business Problem).
