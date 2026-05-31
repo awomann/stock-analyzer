@@ -4,5 +4,3 @@ numpy
 plotly
 requests
 python-dotenv
-transformers
-torch
